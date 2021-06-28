@@ -22,6 +22,12 @@ import * as google_protobuf_wrappers_pb from "google-protobuf/google/protobuf/wr
 
  package examplecom;
 
+ enum MyEnum {
+   INVALID = 0,
+   MY_ENUM_1 = 1,
+   MY_ENUM_2 = 2
+ }
+
  message MySimple {
    string my_string = 1;
    bool my_bool = 2;
@@ -38,9 +44,25 @@ import * as google_protobuf_wrappers_pb from "google-protobuf/google/protobuf/wr
    google.protobuf.Timestamp some_timestamp = 13;
    google.protobuf.Type some_type = 14;
    google.protobuf.DoubleValue some_double_value = 15;
+   MyEnum my_enum = 16;
+   repeated MyEnum some_enums = 17;
  }
 */
 
+/* MyEnum enum definition, based on one of the TypeScript generators. */
+interface MyEnumMap {
+  INVALID: 0;
+  MY_ENUM_1: 1;
+  MY_ENUM_2: 2;
+}
+
+const MyEnum: MyEnumMap = {
+  INVALID: 0,
+  MY_ENUM_1: 1,
+  MY_ENUM_2: 2
+}
+
+/* MySimple class definition */
 class MySimple extends jspb.Message {
   constructor(opt_data?: any) {
     super(); // This isn't actually called in the JS version of this file, but it's required by TS
@@ -70,6 +92,8 @@ class MySimple extends jspb.Message {
       someTimestamp: google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, msg.getSomeTimestamp()),
       someType: google_protobuf_type_pb.Type.toObject(includeInstance, msg.getSomeType()),
       someDoubleValue: google_protobuf_wrappers_pb.DoubleValue.toObject(includeInstance, msg.getSomeDoubleValue()),
+      myEnum: jspb.Message.getField(msg, 16),
+      someEnums: jspb.Message.getRepeatedField(msg, 17)
     };
 
     if (includeInstance) {
@@ -163,6 +187,33 @@ class MySimple extends jspb.Message {
           const value15 = new google_protobuf_wrappers_pb.DoubleValue;
           reader.readMessage(value15, google_protobuf_wrappers_pb.DoubleValue.deserializeBinaryFromReader);
           msg.setSomeDoubleValue(value15);
+          break;
+        case 16:
+          const value16 = reader.readEnum();
+          switch (value16) {
+            case 0:
+            case 1:
+            case 2:
+              msg.setMyEnum(value16);
+              break;
+
+            default:
+              break;
+          }
+          break;
+        case 17:
+          const values17 = (reader.isDelimited() ? reader.readPackedEnum() : [reader.readEnum()]);
+          for (const x of values17) {
+            switch (x) {
+              case 0:
+              case 1:
+              case 2:
+                msg.addSomeEnums(x);
+                break;
+              default:
+                break;
+            }
+          }
           break;
         default:
           reader.skipField();
@@ -306,6 +357,20 @@ class MySimple extends jspb.Message {
         15,
         f15,
         google_protobuf_wrappers_pb.DoubleValue.serializeBinaryToWriter
+      );
+    }
+    const f16 = message.getMyEnum();
+    if (f16 !== 0.0) {
+      writer.writeEnum(
+        16,
+        f16
+      );
+    }
+    const f17 = message.getSomeEnumsList();
+    if (f17.length > 0) {
+      writer.writePackedEnum(
+        17,
+        f17
       );
     }
   }
@@ -532,6 +597,30 @@ class MySimple extends jspb.Message {
 
   hasSomeDoubleValue(): boolean {
     return jspb.Message.getField(this, 15) != null;
+  }
+
+  getMyEnum(): MyEnumMap[keyof MyEnumMap] {
+    return jspb.Message.getFieldWithDefault(this, 16, 0);
+  }
+
+  setMyEnum(value: MyEnumMap[keyof MyEnumMap]) {
+    jspb.Message.setProto3EnumField(this, 16, value);
+  }
+
+  getSomeEnumsList(): Array<MyEnumMap[keyof MyEnumMap]> {
+    return jspb.Message.getRepeatedField(this, 17);
+  }
+
+  setSomeEnumsList(value: Array<MyEnumMap[keyof MyEnumMap]>) {
+    jspb.Message.setField(this, 17, value || []);
+  }
+
+  addSomeEnums(value: MyEnumMap[keyof MyEnumMap], opt_index?: number) {
+    jspb.Message.addToRepeatedField(this, 17, value, opt_index);
+  }
+
+  clearSomeEnumsList(): void {
+    this.setSomeEnumsList([]);
   }
 };
 

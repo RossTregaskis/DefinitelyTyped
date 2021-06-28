@@ -42,6 +42,7 @@ export abstract class Message {
     setExtensionFn: <T>(fieldInfo: ExtensionFieldInfo<T>,
     val: T) => void): void
   static getField(msg: Message, fieldNumber: number): FieldValue|null;
+  static getRepeatedField(msg: Message, fieldNumber: number): any;
   static getOptionalFloatingPointField(msg: Message, fieldNumber: number): number | undefined;
   static getRepeatedFloatingPointField(msg: Message, fieldNumber: number): number[];
   static bytesAsB64(bytes: Uint8Array): string;
@@ -58,6 +59,41 @@ export abstract class Message {
     msg: Message,
     fieldNumber: number,
     value: FieldValue): void;
+  static setProto3IntField(
+    msg: Message,
+    fieldNumber: number,
+    value: number
+   ): void;
+  static setProto3FloatField(
+    msg: Message,
+    fieldNumber: number,
+    value: number
+  ): void;
+  static setProto3BooleanField(
+    msg: Message,
+    fieldNumber: number,
+    value: boolean
+  ): void;
+  static setProto3StringField(
+    msg: Message,
+    fieldNumber: number,
+    value: string
+  ): void;
+  static setProto3BytesField(
+    msg: Message,
+    fieldNumber: number,
+    value: Uint8Array|string
+  ): void;
+  static setProto3EnumField(
+    msg: Message,
+    fieldNumber: number,
+    value: number
+  ): void;
+  static setProto3StringIntField(
+    msg: Message,
+    fieldNumber: number,
+    value: string
+  ): void;
   static addToRepeatedField(
     msg: Message,
     fieldNumber: number,
@@ -222,6 +258,7 @@ export class BinaryReader {
   getBuffer(): Uint8Array;
   getFieldNumber(): number;
   getWireType(): BinaryConstants.WireType;
+  isDelimited(): boolean;
   isEndGroup(): boolean;
   getError(): boolean;
   setBlock(bytes?: ByteSource, start?: number, length?: number): void;
